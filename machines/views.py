@@ -24,7 +24,7 @@ from django.utils import timezone
 import re, datetime
 from qsstats import QuerySetStats
 from django.db.models import Avg
-
+from .forms import UserRegistrationForm
 
 @permission_classes([permissions.AllowAny])
 class RawDataUploadView(APIView):
@@ -238,3 +238,19 @@ class APIGraphData(APIView):
             raise Http404('Error in parameters')
 
         return Response(data)
+
+		# Регистрация пользователей
+def register(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Создание пользователятеля, но пока не сохраняем его
+            new_user = user_form.save(commit=False)
+            # Устанвока пароля
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Сохранение пользователя
+            new_user.save()
+            return render(request, 'account/register_done.html', {'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'account/register.html', {'user_form': user_form})

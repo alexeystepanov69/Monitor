@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{c4867fa2-c5a2-44ce-bd38-570e860fea16}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <InterpreterId />
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <DjangoSettingsModule>Monitor.settings</DjangoSettingsModule>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="backends\exchange.py" />
+    <Compile Include="backends\__init__.py" />
+    <Compile Include="machines\admin.py" />
+    <Compile Include="machines\apps.py" />
+    <Compile Include="machines\filters.py" />
+    <Compile Include="machines\forms.py" />
+    <Compile Include="machines\migrations\0001_initial.py" />
+    <Compile Include="machines\migrations\0002_auto_20190515_0555.py" />
+    <Compile Include="machines\migrations\0003_auto_20190515_0820.py" />
+    <Compile Include="machines\migrations\0004_auto_20190525_0703.py" />
+    <Compile Include="machines\migrations\0005_auto_20190525_0708.py" />
+    <Compile Include="machines\migrations\0006_auto_20190525_0711.py" />
+    <Compile Include="machines\migrations\0007_timetable_timetablecontent.py" />
+    <Compile Include="machines\migrations\0008_auto_20190525_1844.py" />
+    <Compile Include="machines\migrations\0009_rawdata_channel.py" />
+    <Compile Include="machines\migrations\0010_auto_20190529_1506.py" />
+    <Compile Include="machines\migrations\0011_rawdata_ip.py" />
+    <Compile Include="machines\migrations\0012_auto_20190602_1233.py" />
+    <Compile Include="machines\migrations\0013_equipment_main_channel.py" />
+    <Compile Include="machines\migrations\0014_auto_20190610_1949.py" />
+    <Compile Include="machines\migrations\0015_auto_20190613_1441.py" />
+    <Compile Include="machines\migrations\0016_auto_20190613_1626.py" />
+    <Compile Include="machines\migrations\0017_auto_20190618_2046.py" />
+    <Compile Include="machines\migrations\0018_auto_20190625_1621.py" />
+    <Compile Include="machines\migrations\0019_auto_20190626_0927.py" />
+    <Compile Include="machines\migrations\0020_auto_20190701_1743.py" />
+    <Compile Include="machines\migrations\0021_auto_20190701_1806.py" />
+    <Compile Include="machines\migrations\0022_auto_20190702_1600.py" />
+    <Compile Include="machines\migrations\0023_auto_20190702_1807.py" />
+    <Compile Include="machines\migrations\0024_auto_20190703_0923.py" />
+    <Compile Include="machines\migrations\0025_auto_20190703_1119.py" />
+    <Compile Include="machines\migrations\__init__.py" />
+    <Compile Include="machines\models.py" />
+    <Compile Include="machines\parsers.py" />
+    <Compile Include="machines\scripts\get_raw_data_from_server.py" />
+    <Compile Include="machines\serializers.py" />
+    <Compile Include="machines\tasks.py" />
+    <Compile Include="machines\tests.py" />
+    <Compile Include="machines\urls.py" />
+    <Compile Include="machines\views.py" />
+    <Compile Include="machines\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="Monitor\celery.py" />
+    <Compile Include="Monitor\settings.py" />
+    <Compile Include="Monitor\urls.py" />
+    <Compile Include="Monitor\view.py" />
+    <Compile Include="Monitor\wsgi.py" />
+    <Compile Include="Monitor\__init__.py" />
+    <Compile Include="venv\bin\activate_this.py" />
+    <Compile Include="venv\bin\django-admin.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="machines\templates\machines\equipment_list.html" />
+    <Content Include="machines\templates\machines\works_detail.html" />
+    <Content Include="static\admin\css\base.css" />
+    <Content Include="static\admin\css\changelists.css" />
+    <Content Include="static\admin\css\dashboard.css" />
+    <Content Include="static\admin\css\fonts.css" />
+    <Content Include="static\admin\css\forms.css" />
+    <Content Include="static\admin\css\login.css" />
+    <Content Include="static\admin\css\rtl.css" />
+    <Content Include="static\admin\css\widgets.css" />
+    <Content Include="static\admin\fonts\LICENSE.txt" />
+    <Content Include="static\admin\fonts\README.txt" />
+    <Content Include="static\admin\img\calendar-icons.svg" />
+    <Content Include="static\admin\img\gis\move_vertex_off.svg" />
+    <Content Include="static\admin\img\gis\move_vertex_on.svg" />
+    <Content Include="static\admin\img\icon-addlink.svg" />
+    <Content Include="static\admin\img\icon-alert.svg" />
+    <Content Include="static\admin\img\icon-calendar.svg" />
+    <Content Include="static\admin\img\icon-changelink.svg" />
+    <Content Include="static\admin\img\icon-clock.svg" />
+    <Content Include="static\admin\img\icon-deletelink.svg" />
+    <Content Include="static\admin\img\icon-no.svg" />
+    <Content Include="static\admin\img\icon-unknown-alt.svg" />
+    <Content Include="static\admin\img\icon-unknown.svg" />
+    <Content Include="static\admin\img\icon-yes.svg" />
+    <Content Include="static\admin\img\inline-delete.svg" />
+    <Content Include="static\admin\img\README.txt" />
+    <Content Include="static\admin\img\search.svg" />
+    <Content Include="static\admin\img\selector-icons.svg" />
+    <Content Include="static\admin\img\sorting-icons.svg" />
+    <Content Include="static\admin\img\tooltag-add.svg" />
+    <Content Include="static\admin\img\tooltag-arrowright.svg" />
+    <Content Include="static\admin\js\actions.js" />
+    <Content Include="static\admin\js\actions.min.js" />
+    <Content Include="static\admin\js\admin\DateTimeShortcuts.js" />
+    <Content Include="static\admin\js\admin\RelatedObjectLookups.js" />
+    <Content Include="static\admin\js\calendar.js" />
+    <Content Include="static\admin\js\cancel.js" />
+    <Content Include="static\admin\js\change_form.js" />
+    <Content Include="static\admin\js\collapse.js" />
+    <Content Include="static\admin\js\collapse.min.js" />
+    <Content Include="static\admin\js\core.js" />
+    <Content Include="static\admin\js\inlines.js" />
+    <Content Include="static\admin\js\inlines.min.js" />
+    <Content Include="static\admin\js\jquery.init.js" />
+    <Content Include="static\admin\js\popup_response.js" />
+    <Content Include="static\admin\js\prepopulate.js" />
+    <Content Include="static\admin\js\prepopulate.min.js" />
+    <Content Include="static\admin\js\prepopulate_init.js" />
+    <Content Include="static\admin\js\SelectBox.js" />
+    <Content Include="static\admin\js\SelectFilter2.js" />
+    <Content Include="static\admin\js\timeparse.js" />
+    <Content Include="static\admin\js\urlify.js" />
+    <Content Include="static\admin\js\vendor\jquery\jquery.js" />
+    <Content Include="static\admin\js\vendor\jquery\jquery.min.js" />
+    <Content Include="static\admin\js\vendor\jquery\LICENSE-JQUERY.txt" />
+    <Content Include="static\admin\js\vendor\xregexp\LICENSE-XREGEXP.txt" />
+    <Content Include="static\admin\js\vendor\xregexp\xregexp.js" />
+    <Content Include="static\admin\js\vendor\xregexp\xregexp.min.js" />
+    <Content Include="static\css\styles.css" />
+    <Content Include="static\img\OSKLogo.png" />
+    <Content Include="static\img\pzLogo.png" />
+    <Content Include="static\js\datepicker-ru.js" />
+    <Content Include="static\js\main.js" />
+    <Content Include="static\js\work_detail.js" />
+    <Content Include="templates\account\register.html" />
+    <Content Include="templates\account\register_done.html" />
+    <Content Include="templates\base.html" />
+    <Content Include="templates\main_index.html" />
+    <Content Include="templates\registration\logged_out.html" />
+    <Content Include="templates\registration\login.html" />
+    <Content Include="templates\registration\password_reset_complete.html" />
+    <Content Include="templates\registration\password_reset_confirm.html" />
+    <Content Include="templates\registration\password_reset_done.html" />
+    <Content Include="templates\registration\password_reset_email.html" />
+    <Content Include="templates\registration\password_reset_form.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="backends" />
+    <Folder Include="machines" />
+    <Folder Include="machines\migrations" />
+    <Folder Include="machines\scripts" />
+    <Folder Include="machines\templates\" />
+    <Folder Include="machines\templates\machines" />
+    <Folder Include="Monitor" />
+    <Folder Include="static\" />
+    <Folder Include="static\admin\" />
+    <Folder Include="static\admin\css" />
+    <Folder Include="static\admin\fonts" />
+    <Folder Include="static\admin\img" />
+    <Folder Include="static\admin\img\gis" />
+    <Folder Include="static\admin\js" />
+    <Folder Include="static\admin\js\admin" />
+    <Folder Include="static\admin\js\vendor\" />
+    <Folder Include="static\admin\js\vendor\jquery" />
+    <Folder Include="static\admin\js\vendor\xregexp" />
+    <Folder Include="static\css" />
+    <Folder Include="static\img" />
+    <Folder Include="static\js" />
+    <Folder Include="templates" />
+    <Folder Include="templates\account\" />
+    <Folder Include="templates\registration" />
+    <Folder Include="venv\" />
+    <Folder Include="venv\bin" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

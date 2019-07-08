@@ -1,0 +1,3 @@
+C:\Users\EfimovVS\Desktop\Monitor\obj\Debug\Monitor.pyproj.CoreCompileInputs.cache
+C:\Users\EfimovVS\Desktop\Monitor\bin\Microsoft.PythonTools.WebRole.dll
+C:\Users\EfimovVS\Desktop\Monitor\bin\wfastcgi.py

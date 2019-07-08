@@ -60,10 +60,10 @@
             options: {
             backgroundColor: "#f9f9f9",
             colors: ["#FF0000", "#00FF00", "#0000FF"],
-            title: "График",
             chartArea: {left: 40, top: 20, width: '90%', height: '100%'},
             width: '100%',
-            height: '20%'
+            height: '20%',
+			legend: {position: 'none'}
             }
         {% endoptions %}
         {% graph "my-graph" "track" "myoptions" %}
