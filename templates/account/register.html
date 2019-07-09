@@ -7,7 +7,7 @@
     <p><big>Пожалуйста, заполните форму:</big></p>
     <form action="." method="post">
 		{% csrf_token %}    
-		{{ user_form.as_p }}
+		{{ user_form.username }}
         <p><input type="submit" value="Создать аккаунт"></p>
     </form>
 {% endblock %}

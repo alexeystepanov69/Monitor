@@ -5,9 +5,18 @@
 {% block content %}
     <h1>Регистрация</h1>
     <p><big>Пожалуйста, заполните форму:</big></p>
+		
+	<table align=center >
     <form action="." method="post">
-        {{ user_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Создать аккаунт"></p>
+		{% csrf_token %}
+	<tr><td align=right><h3>Фамилия:</h3></td><td>{{ user_form.last_name }}</td></tr>
+    <tr><td align=right><h3>Имя:</h3></td><td>{{ user_form.first_name }}</td></tr>
+	<tr><td align=right><h3>Электронная почта:</h3></td><td>{{ user_form.email }}</td></tr>    
+	<tr><td align=right><h3>Пароль:</h3></td><td>{{ user_form.password }}</td></tr>  
+	<tr><td align=right><h3>Повторите пароль:</h3></td><td>{{ user_form.password2 }}</td></tr>  	
+	<tr style=""><td align=right><h3>Пользователь:</h3></td><td>{{ user_form.username }}</td></tr> 
+	<tr ><td colspan="2" align=center><font color=white>.</font></td></tr>	
+	<tr><td colspan="2" align=center><input type="submit" value="Создать аккаунт"></td></tr>
     </form>
+	</table>
 {% endblock %}

@@ -56,10 +56,14 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email', 'username')
 
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Пароли\'t не совпадают!')
+            raise forms.ValidationError('Пароли не совпадают!')
+        if cd['first_name'] =='' or cd['last_name'] =='' or  cd['email'] =='':
+            raise forms.ValidationError('Все поля обязательны для заполнения!')
+        if cd['email'] !='':
+            cd['username']=cd['email']
         return cd['password2']
