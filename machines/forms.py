@@ -5,6 +5,7 @@ from django.contrib.contenttypes.forms import generic_inlineformset_factory
 from .models import Reason, ClassifiedInterval, Equipment
 from django.utils import timezone
 from django.contrib.auth.models import User
+from .models import Profile
 
 class ReasonForm(forms.ModelForm):
 
@@ -53,6 +54,7 @@ ClassifiedIntervalFormSet = modelformset_factory(ClassifiedInterval, form=Classi
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
+    phone=forms.CharField(label="Телефон",max_length=12)
 
     class Meta:
         model = User
@@ -67,3 +69,14 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['email'] !='':
             cd['username']=cd['email']
         return cd['password2']
+
+	#Редактирование профиля
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('phone',)

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
@@ -60,6 +60,11 @@
                         <span class="glyphicon glyphicon-user"></span> {{ request.user.username }}
                     </a>
                 </li>
+				<li>
+					 <a href="{% url 'edit' %}" >
+                        <span class="glyphicon ">Указать телефон</span> 
+                    </a> 
+				</li>
                 <li>
                     <a href="{% url 'logout' %}" id="logout">
                         <span class="glyphicon glyphicon-log-out"></span> Выход
