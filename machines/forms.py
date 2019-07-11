@@ -6,6 +6,8 @@ from .models import Reason, ClassifiedInterval, Equipment
 from django.utils import timezone
 from django.contrib.auth.models import User
 from .models import Profile
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 class ReasonForm(forms.ModelForm):
 
@@ -69,6 +71,12 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['email'] !='':
             cd['username']=cd['email']
         return cd['password2']
+
+#Создание пользователя неактивным(становится активным после подтверждения кода безопасности)
+@receiver(pre_save, sender=User)
+def set_new_user_inactive(sender, instance, **kwargs):
+    if instance._state.adding is True:
+        instance.is_active = False
 
 	#Редактирование профиля
 class UserEditForm(forms.ModelForm):

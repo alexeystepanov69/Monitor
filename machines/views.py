@@ -252,13 +252,14 @@ def register(request):
             new_user = user_form.save(commit=False)
             # Устанвока пароля
             new_user.set_password(user_form.cleaned_data['password'])
-            # Сохранение пользователя
+            # Сохранение пользователя c  данными из модели User(username,password,firstname,lastname)
             new_user.save()
+			# Сохранение пользователя c  дополнительными данными из модели Profile(phone)
             profile = Profile.objects.filter(user=new_user).first()
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
 
-            return render(request, 'account/register_done.html', {'new_user': new_user})
+            return render(request, 'account/register_code.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -278,3 +279,12 @@ def edit(request):
                       'account/edit.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})
+
+		# Подтверждение кода безопасности
+def validate(request):
+    if request.method == 'POST':
+        code  = request.POST.get("code")
+        if code.value=="777":
+            return render(request, 'account/register_dode.html')
+        else:
+          return render(request, 'account/register_not_done.html')

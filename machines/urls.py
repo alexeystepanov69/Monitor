@@ -18,5 +18,6 @@ urlpatterns = [
                   url(r'graph', views.APIGraphData.as_view(), name='graph-data'),
 				  url(r'^register/$', views.register, name='register'),
 				  url(r'^edit/$', views.edit, name='edit'),
+				  url(r'^validate/$', views.validate, name='validate'),
                   path('works/<int:pk>/', views.EquipmentWorksDetailView.as_view(), name='works-detail'),
               ] + router.urls

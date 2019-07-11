@@ -5,6 +5,7 @@
 {% block content %}
     <h1>Регистрация</h1>
     <p><big>Пожалуйста, заполните форму:</big></p>	
+
 	<table align=center >
     <form action="." method="post">
 		{% csrf_token %}
@@ -20,6 +21,6 @@
     </form>
 	</table>
 	<script>
-	document.getElementById('user').value = "666";
+	document.getElementById('user').value = "1";
 	</script>
 {% endblock %}
