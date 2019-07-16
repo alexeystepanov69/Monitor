@@ -27,7 +27,7 @@ from django.db.models import Avg
 from .forms import UserRegistrationForm
 
 from .models import Profile
-from .forms import  UserEditForm, ProfileEditForm
+from .forms import  UserEditForm, ProfileEditForm, CodeForm
 from django.contrib.auth.decorators import login_required
 
 @permission_classes([permissions.AllowAny])
@@ -283,8 +283,9 @@ def edit(request):
 		# Подтверждение кода безопасности
 def validate(request):
     if request.method == 'POST':
-        code  = request.POST.get("code")
+        code_form = CodeForm(request.POST)
+        code  =  code_form.cleaned_data['code']
         if code.value=="777":
-            return render(request, 'account/register_dode.html')
+            return render(request, 'account/register_dode.html', {'code_form': code_form})
         else:
-          return render(request, 'account/register_not_done.html')
+          return render(request, 'account/register_not_done.html', {'code_form': code_form})

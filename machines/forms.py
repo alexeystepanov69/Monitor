@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from .models import Code
 
 class ReasonForm(forms.ModelForm):
 
@@ -88,3 +89,9 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('phone',)
+
+# Подтверждение кода безопасности
+class CodeForm(forms.ModelForm):
+    class Meta:
+        model = Code
+        fields = ('code',)
