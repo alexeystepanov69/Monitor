@@ -30,8 +30,13 @@
                 <tr>
                     <th>{{ object }}</th>
                     <th>
-                        <!--input type="date" id="mycalendar" name="date" style="alignment: center"-->
-                        {{ form.date }}
+                      <input type="text"  id="datepicker"/>
+						<script type="text/javascript">
+						$(function() {
+						  $("#datepicker").datepicker();
+						});
+						</script>
+                       <!--{{ form.date }}--> 
                     </th>
                     <th class="text-right">
                         <input type="submit" class="btn btn-primary text-right" id="btn_save_and_go"
