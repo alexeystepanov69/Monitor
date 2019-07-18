@@ -4,7 +4,7 @@ from django.forms import fields
 from django.forms.models import inlineformset_factory
 from django.db.models import Q
 from django.db import transaction
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls.base import reverse_lazy
 from django.utils.dateparse import parse_datetime, parse_date
 from django.http import Http404
@@ -259,7 +259,7 @@ def register(request):
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
 
-            return render(request, 'account/register_code.html', {'new_user': new_user})
+            return redirect(reverse_lazy('validate'), {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -284,8 +284,14 @@ def edit(request):
 def validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
-        code  =  code_form.cleaned_data['code']
-        if code.value=="777":
-            return render(request, 'account/register_dode.html', {'code_form': code_form})
-        else:
-          return render(request, 'account/register_not_done.html', {'code_form': code_form})
+        if code_form.is_valid():
+           code  =  code_form.cleaned_data['code']
+           if code == "777":
+            user=code_form.cleaned_data['user_form']
+            user.is_active = True
+            return render(request, 'account/register_done.html', {'code_form': code_form})
+           else:
+            return render(request, 'account/register_not_done.html', {'code_form': code_form})
+    else:
+      code_form = CodeForm(request.POST)
+      return render(request, 'account/register_code.html', {'code_form': code_form})
