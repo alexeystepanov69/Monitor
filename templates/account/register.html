@@ -12,15 +12,18 @@
 	<tr><td align=right><h4>Фамилия:</h4></td><td>{{ user_form.last_name }}</td></tr>
     <tr><td align=right><h4>Имя:</h4></td><td>{{ user_form.first_name }}</td></tr>
 	<tr><td align=right><h4>Электронная почта:</h4></td><td>{{ user_form.email }}</td></tr> 
-	<tr ><td align=right><h4>Телефон:</h4></td><td>{{ user_form.phone }}</td></tr> 	
+	<tr ><td align=right><h4>Телефон:</h4></td><td><input id="phone" type="text" name="phone" value="" /></td></tr> 	
 	<tr><td align=right><h4>Пароль:</h4></td><td>{{ user_form.password }}</td></tr>  
 	<tr><td align=right><h4>Повторите пароль:</h4></td><td>{{ user_form.password2 }}</td></tr>  	
-	<tr style="display:none;""><td align=right><h4>Пользователь:</h4></td><td><input id="user" type="{{ user_form.username }}"></td></tr> 
+	<tr style="display:none;"><td align=right><h4>Пользователь:</h4></td><td><input id="user" type="{{ user_form.username }}"></td></tr> 
 	<tr ><td colspan="2" align=center><font color=white>.</font></td></tr>	
 	<tr><td colspan="2" align=center><input type="submit" value="Создать аккаунт"></td></tr>
     </form>
 	</table>
 	<script>
+	$(document).ready(function() {
+	$("#phone").inputmask("+79999999999")
 	document.getElementById('user').value = "1";
+	});
 	</script>
 {% endblock %}

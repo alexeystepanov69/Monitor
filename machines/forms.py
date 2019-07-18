@@ -73,6 +73,7 @@ class UserRegistrationForm(forms.ModelForm):
             cd['username']=cd['email']
         return cd['password2']
 
+
 #Создание пользователя неактивным(становится активным после подтверждения кода безопасности)
 @receiver(pre_save, sender=User)
 def set_new_user_inactive(sender, instance, **kwargs):
