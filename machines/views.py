@@ -259,7 +259,8 @@ def register(request):
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
 
-            return redirect(reverse_lazy('validate'), {'new_user': new_user})
+            #return redirect(reverse_lazy('validate'), {'new_user': new_user})
+            return render(request, reverse_lazy('validate'), {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -287,11 +288,13 @@ def validate(request):
         if code_form.is_valid():
            code  =  code_form.cleaned_data['code']
            if code == "777":
-            user=code_form.cleaned_data['user_form']
-            user.is_active = True
-            return render(request, 'account/register_done.html', {'code_form': code_form})
+             user= request.POST.get("new_user")
+             user.is_active = True
+             user.save()
+             return render(request, 'account/register_done.html')
            else:
             return render(request, 'account/register_not_done.html', {'code_form': code_form})
     else:
-      code_form = CodeForm(request.POST)
-      return render(request, 'account/register_code.html', {'code_form': code_form})
+      code_form = CodeForm(request.GET)
+      user=request.POST['new_user']
+      return render(request, 'account/register_code.html', {'code_form': code_form, 'new_user': user})
