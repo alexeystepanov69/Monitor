@@ -259,8 +259,8 @@ def register(request):
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
 
-            #return redirect(reverse_lazy('validate'), {'new_user': new_user})
-            return render(request, reverse_lazy('validate'), {'new_user': new_user})
+            return redirect(reverse_lazy('validate'), {'new_user': new_user})
+            #return render(request, reverse_lazy('validate'), {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -282,7 +282,7 @@ def edit(request):
                        'profile_form': profile_form})
 
 		# Подтверждение кода безопасности
-def validate(request):
+def validate(request,user=None):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
         if code_form.is_valid():
@@ -296,5 +296,5 @@ def validate(request):
             return render(request, 'account/register_not_done.html', {'code_form': code_form})
     else:
       code_form = CodeForm(request.GET)
-      user=request.POST['new_user']
+      user=request.GET['new_user']
       return render(request, 'account/register_code.html', {'code_form': code_form, 'new_user': user})
