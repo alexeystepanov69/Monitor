@@ -29,6 +29,7 @@ from .forms import UserRegistrationForm
 from .models import Profile
 from .forms import  UserEditForm, ProfileEditForm, CodeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 @permission_classes([permissions.AllowAny])
 class RawDataUploadView(APIView):
@@ -259,8 +260,8 @@ def register(request):
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
 
-            return redirect(reverse_lazy('validate'), {'new_user': new_user})
-            #return render(request, reverse_lazy('validate'), {'new_user': new_user})
+            url=reverse_lazy('validate')+'?user={0}'.format(new_user.id)
+            return redirect(url)
     else:
         user_form = UserRegistrationForm()
     return render(request, 'account/register.html', {'user_form': user_form})
@@ -282,19 +283,40 @@ def edit(request):
                        'profile_form': profile_form})
 
 		# Подтверждение кода безопасности
-def validate(request,user=None):
+def validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
         if code_form.is_valid():
            code  =  code_form.cleaned_data['code']
            if code == "777":
-             user= request.POST.get("new_user")
-             user.is_active = True
-             user.save()
+             user= code_form.cleaned_data['user_id']
+             active_user = User.objects.filter(id=user).first()
+             active_user.is_active=True
+             active_user.save()
              return render(request, 'account/register_done.html')
            else:
-            return render(request, 'account/register_not_done.html', {'code_form': code_form})
+            user= code_form.cleaned_data['user_id']
+            url=reverse_lazy('not_validate')+'?user={0}'.format(user)
+            return redirect(url)
     else:
       code_form = CodeForm(request.GET)
-      user=request.GET['new_user']
-      return render(request, 'account/register_code.html', {'code_form': code_form, 'new_user': user})
+      return render(request, 'account/register_code.html', {'code_form': code_form})
+
+def not_validate(request):
+    if request.method == 'POST':
+        code_form = CodeForm(request.POST)
+        if code_form.is_valid():
+           code  =  code_form.cleaned_data['code']
+           if code == "777":
+             user= code_form.cleaned_data['user_id']
+             active_user = User.objects.filter(id=user).first()
+             active_user.is_active=True
+             active_user.save()
+             return render(request, 'account/register_done.html')
+           else:
+            user= code_form.cleaned_data['user_id']
+            url=reverse_lazy('not_validate')+'?user={0}'.format(user)
+            return redirect(url)
+    else:
+      code_form = CodeForm(request.GET)
+      return render(request, 'account/register_not_done.html', {'code_form': code_form})
