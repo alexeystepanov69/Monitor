@@ -30,6 +30,8 @@ from .models import Profile
 from .forms import  UserEditForm, ProfileEditForm, CodeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from random import randint
 
 @permission_classes([permissions.AllowAny])
 class RawDataUploadView(APIView):
@@ -259,7 +261,7 @@ def register(request):
             profile = Profile.objects.filter(user=new_user).first()
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
-
+            send_email(new_user.email)
             url=reverse_lazy('validate')+'?user={0}'.format(new_user.id)
             return redirect(url)
     else:
@@ -281,6 +283,23 @@ def edit(request):
                       'account/edit.html',
                       {'user_form': user_form,
                        'profile_form': profile_form})
+
+	#Генерация кода безопасности
+def generate_code():
+    array=[0,1,2,3,4,5,6,7,8,9]
+    register_code=""
+    for i in range(4):
+        index=randint(0,9)
+        register_code+=str(array[index])
+    return register_code
+
+   #Отправка письма
+def send_email(email):
+    register_code=""
+    register_code=generate_code()
+    msg='Здравствуйте!\n Для подверждения регистрации на сайте введите код: '+register_code+".\nЕсли вы не регистрировались на сайте ""Портал ПАО Пролетарский завод"" не обращайте внимание на это письмо."
+    send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
+    return register_code
 
 		# Подтверждение кода безопасности
 def validate(request):
