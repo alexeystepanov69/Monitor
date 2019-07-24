@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .models import Participant, Reason, Equipment, TimetableDetail, Timetable, TimetableContent, ClassifiedInterval, Profile
+from .models import Participant, Reason, Equipment, TimetableDetail, Timetable, TimetableContent, ClassifiedInterval, Profile, Code
 
 from django.contrib import admin
 
@@ -34,6 +34,9 @@ class ClassifiedIntervalAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['user', 'phone']
 
+class CodeAdmin(admin.ModelAdmin):
+    list_display = ['user', 'code']
+
 # Register your models here.
 admin.site.register(Participant)
 admin.site.register(Reason)
@@ -42,3 +45,4 @@ admin.site.register(TimetableDetail)
 admin.site.register(Timetable, TimetableAdmin)
 admin.site.register(ClassifiedInterval, ClassifiedIntervalAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Code, CodeAdmin)

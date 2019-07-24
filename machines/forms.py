@@ -92,9 +92,8 @@ class ProfileEditForm(forms.ModelForm):
         fields = ('phone',)
 
 # Подтверждение кода безопасности
-class CodeForm(forms.Form):
-    #class Meta:
-       # model = Code
-       # fields = ('code',)
- code=forms.CharField(max_length=12)
- user_id=forms.CharField()
+class CodeForm(forms.ModelForm):
+    user_id=forms.CharField()
+    class Meta:
+        model = Code
+        fields = ('code',)

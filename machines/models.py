@@ -256,4 +256,5 @@ def save_user_profile(sender, instance, **kwargs):
 
 #Модель кода безопасности
 class Code(models.Model):
-	code=models.CharField(max_length=12)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    code=models.CharField(max_length=4)

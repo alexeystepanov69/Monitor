@@ -26,7 +26,7 @@ from qsstats import QuerySetStats
 from django.db.models import Avg
 from .forms import UserRegistrationForm
 
-from .models import Profile
+from .models import Profile, Code
 from .forms import  UserEditForm, ProfileEditForm, CodeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -261,7 +261,10 @@ def register(request):
             profile = Profile.objects.filter(user=new_user).first()
             profile.phone=user_form.cleaned_data['phone']
             profile.save()
-            send_email(new_user.email)
+			# Сохранение пользователя c  дополнительными данными из модели Code(code)
+            code = Code.objects.create(user=new_user)
+            code.code=send_email(new_user.email)
+            code.save()
             url=reverse_lazy('validate')+'?user={0}'.format(new_user.id)
             return redirect(url)
     else:
@@ -297,7 +300,15 @@ def generate_code():
 def send_email(email):
     register_code=""
     register_code=generate_code()
-    msg='Здравствуйте!\n Для подверждения регистрации на сайте введите код: '+register_code+".\nЕсли вы не регистрировались на сайте ""Портал ПАО Пролетарский завод"" не обращайте внимание на это письмо."
+    msg='Здравствуйте!\n Для подверждения регистрации на сайте введите код: '+register_code+".\nЕсли вы не регистрировались на сайте Портал ПАО Пролетарский завод, не обращайте внимание на это письмо."
+    send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
+    return register_code
+
+   #Отправка письма если код указан неверно
+def send_email2(email):
+    register_code=""
+    register_code=generate_code()
+    msg='Здравствуйте!\n Вы указали неправильный код для подверждения регистрации на сайте.\n Держите новый код: '+register_code+".\nЕсли вы не регистрировались на сайте Портал ПАО Пролетарский завод, не обращайте внимание на это письмо."
     send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
     return register_code
 
@@ -306,15 +317,19 @@ def validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
         if code_form.is_valid():
+           user= code_form.cleaned_data['user_id']
            code  =  code_form.cleaned_data['code']
-           if code == "777":
-             user= code_form.cleaned_data['user_id']
+           code_from_base=Code.objects.filter(user_id=user).first()
+           if code == code_from_base.code:
              active_user = User.objects.filter(id=user).first()
              active_user.is_active=True
              active_user.save()
              return render(request, 'account/register_done.html')
            else:
-            user= code_form.cleaned_data['user_id']
+            code = Code.objects.filter(user_id=user).first()
+            email=User.objects.filter(id=user).first()
+            code.code=send_email2(email.email)
+            code.save()
             url=reverse_lazy('not_validate')+'?user={0}'.format(user)
             return redirect(url)
     else:
@@ -325,15 +340,19 @@ def not_validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
         if code_form.is_valid():
+           user= code_form.cleaned_data['user_id']
            code  =  code_form.cleaned_data['code']
-           if code == "777":
-             user= code_form.cleaned_data['user_id']
+           code_from_base=Code.objects.filter(user_id=user).first()
+           if code ==  code_from_base.code:
              active_user = User.objects.filter(id=user).first()
              active_user.is_active=True
              active_user.save()
              return render(request, 'account/register_done.html')
            else:
-            user= code_form.cleaned_data['user_id']
+            code = Code.objects.filter(user_id=user).first()
+            email=User.objects.filter(id=user).first()
+            code.code=send_email2(email.email)
+            code.save()
             url=reverse_lazy('not_validate')+'?user={0}'.format(user)
             return redirect(url)
     else:
