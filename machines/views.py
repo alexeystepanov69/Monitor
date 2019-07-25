@@ -368,3 +368,28 @@ def not_validate(request):
     else:
       code_form = CodeForm(request.GET)
       return render(request, 'account/register_not_done.html', {'code_form': code_form})
+
+   #Отправка кода безопасности на телефон
+def validate_phone(request):
+    if request.method == 'POST':
+        code_form = CodeForm(request.POST)
+        if code_form.is_valid():
+           user= code_form.cleaned_data['user_id']
+           code  =  code_form.cleaned_data['code']
+           code_from_base=Code.objects.filter(user_id=user).first()
+           if code == code_from_base.code:
+             active_user = User.objects.filter(id=user).first()
+             active_user.is_active=True
+             active_user.save()
+             send_email3(active_user.email,active_user.password)
+             return render(request, 'account/register_done.html')
+           else:
+            code = Code.objects.filter(user_id=user).first()
+            email=User.objects.filter(id=user).first()
+            code.code=send_email2(email.email)
+            code.save()
+            url=reverse_lazy('not_validate')+'?user={0}'.format(user)
+            return redirect(url)
+    else:
+      code_form = CodeForm(request.GET)
+      return render(request, 'account/register_code_phone.html', {'code_form': code_form})

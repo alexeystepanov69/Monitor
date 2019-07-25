@@ -20,5 +20,6 @@ urlpatterns = [
 				  url(r'^edit/$', views.edit, name='edit'),
 				  url(r'^validate/$', views.validate, name='validate'),
 				  url(r'^not_validate/$', views.not_validate, name='not_validate'),
+				  url(r'^validate_phone/$', views.validate_phone, name='validate_phone'),
                   path('works/<int:pk>/', views.EquipmentWorksDetailView.as_view(), name='works-detail'),
               ] + router.urls
