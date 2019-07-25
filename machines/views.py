@@ -316,7 +316,7 @@ def send_email2(email):
 def send_email3(email,password):
     register_code=""
     register_code=generate_code()
-    msg='Здравствуйте!\nПоздравляем с упешной регистрацией на сайте  Портал ПАО Пролетарский завод!\n Данные для входа в аккаунт:\n\tПочта: '+email+'\n\tПароль: '+password
+    msg='Здравствуйте!\nПоздравляем с упешной регистрацией на сайте  Портал ПАО Пролетарский завод!'
     send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
     return register_code
 
