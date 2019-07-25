@@ -300,7 +300,7 @@ def generate_code():
 def send_email(email):
     register_code=""
     register_code=generate_code()
-    msg='Здравствуйте!\n Для подверждения регистрации на сайте введите код: '+register_code+".\nЕсли вы не регистрировались на сайте Портал ПАО Пролетарский завод, не обращайте внимание на это письмо."
+    msg='Здравствуйте!\nДля подверждения регистрации на сайте введите код: '+register_code+'.\nЕсли вы не регистрировались на сайте Портал ПАО Пролетарский завод, не обращайте внимание на это письмо.'
     send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
     return register_code
 
@@ -308,7 +308,15 @@ def send_email(email):
 def send_email2(email):
     register_code=""
     register_code=generate_code()
-    msg='Здравствуйте!\n Вы указали неправильный код для подверждения регистрации на сайте.\n Держите новый код: '+register_code+".\nЕсли вы не регистрировались на сайте Портал ПАО Пролетарский завод, не обращайте внимание на это письмо."
+    msg='Здравствуйте!\nВы указали неправильный код для подверждения регистрации на сайте.\n Держите новый код: '+register_code+'.'
+    send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
+    return register_code
+
+   #Отправка письма с уведомлением об успешной регистрации
+def send_email3(email,password):
+    register_code=""
+    register_code=generate_code()
+    msg='Здравствуйте!\nПоздравляем с упешной регистрацией на сайте  Портал ПАО Пролетарский завод!\n Данные для входа в аккаунт:\n\tПочта: '+email+'\n\tПароль: '+password
     send_mail('Подтверждение регистрации', msg, 'monitor@proletarsky.ru', [email])
     return register_code
 
@@ -324,6 +332,7 @@ def validate(request):
              active_user = User.objects.filter(id=user).first()
              active_user.is_active=True
              active_user.save()
+             send_email3(active_user.email,active_user.password)
              return render(request, 'account/register_done.html')
            else:
             code = Code.objects.filter(user_id=user).first()
@@ -347,6 +356,7 @@ def not_validate(request):
              active_user = User.objects.filter(id=user).first()
              active_user.is_active=True
              active_user.save()
+             send_email3(active_user.email,active_user.password)
              return render(request, 'account/register_done.html')
            else:
             code = Code.objects.filter(user_id=user).first()
