@@ -27,11 +27,12 @@ from django.db.models import Avg
 from .forms import UserRegistrationForm
 
 from .models import Profile, Code
-from .forms import  UserEditForm, ProfileEditForm, CodeForm
+from .forms import  UserEditForm, ProfileEditForm, CodeForm, PhoneCodeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from random import randint
+from machines.helpers import SendSMS
 
 @permission_classes([permissions.AllowAny])
 class RawDataUploadView(APIView):
@@ -324,6 +325,14 @@ def send_email3(email,password):
 def validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
+        id_user_form=PhoneCodeForm(request.POST)
+        if id_user_form.is_valid():
+           id_user= id_user_form.cleaned_data['user_id']
+           code=Code.objects.filter(user_id=id_user).first()
+           phone=Profile.objects.filter(id=id_user).first()
+           SendSMS(phone.phone,0,code.code)
+           url=reverse_lazy('validate_phone')+'?user={0}'.format(id_user)
+           return redirect(url)
         if code_form.is_valid():
            user= code_form.cleaned_data['user_id']
            code  =  code_form.cleaned_data['code']
@@ -343,7 +352,8 @@ def validate(request):
             return redirect(url)
     else:
       code_form = CodeForm(request.GET)
-      return render(request, 'account/register_code.html', {'code_form': code_form})
+      id_user_form=PhoneCodeForm(request.GET)
+      return render(request, 'account/register_code.html', {'code_form': code_form, 'id_user_form': id_user_form})
 
 def not_validate(request):
     if request.method == 'POST':
@@ -373,8 +383,9 @@ def not_validate(request):
 def validate_phone(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
-        if code_form.is_valid():
-           user= code_form.cleaned_data['user_id']
+        id_user_form=PhoneCodeForm(request.POST)
+        if code_form.is_valid() and id_user_form.is_valid():
+           user= id_user_form.cleaned_data['user_id']
            code  =  code_form.cleaned_data['code']
            code_from_base=Code.objects.filter(user_id=user).first()
            if code == code_from_base.code:
@@ -392,4 +403,5 @@ def validate_phone(request):
             return redirect(url)
     else:
       code_form = CodeForm(request.GET)
-      return render(request, 'account/register_code_phone.html', {'code_form': code_form})
+      id_user_form=PhoneCodeForm(request.GET)
+      return render(request, 'account/register_code_phone.html', {'code_form': code_form,'id_user_form': id_user_form})

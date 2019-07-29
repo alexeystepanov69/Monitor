@@ -97,3 +97,7 @@ class CodeForm(forms.ModelForm):
     class Meta:
         model = Code
         fields = ('code',)
+
+#Подтверждение кода безопасности через телефон
+class PhoneCodeForm(forms.Form):
+    user_id=forms.CharField()

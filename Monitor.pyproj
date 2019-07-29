@@ -27,6 +27,7 @@
     <Compile Include="machines\apps.py" />
     <Compile Include="machines\filters.py" />
     <Compile Include="machines\forms.py" />
+    <Compile Include="machines\helpers.py" />
     <Compile Include="machines\migrations\0001_initial.py" />
     <Compile Include="machines\migrations\__init__.py" />
     <Compile Include="machines\models.py" />
