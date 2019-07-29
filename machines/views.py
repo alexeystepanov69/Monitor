@@ -326,11 +326,11 @@ def validate(request):
     if request.method == 'POST':
         code_form = CodeForm(request.POST)
         id_user_form=PhoneCodeForm(request.POST)
-        if id_user_form.is_valid():
+        if id_user_form.is_valid() and not code_form.is_valid():
            id_user= id_user_form.cleaned_data['user_id']
            code=Code.objects.filter(user_id=id_user).first()
            phone=Profile.objects.filter(id=id_user).first()
-           SendSMS(phone.phone,0,code.code)
+           SendSMS(phone.phone,2,code.code)
            url=reverse_lazy('validate_phone')+'?user={0}'.format(id_user)
            return redirect(url)
         if code_form.is_valid():
