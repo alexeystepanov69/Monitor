@@ -7,6 +7,7 @@ from .views import RawDataViewSet, EquipmentWorksDetailView
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 
 router = routers.DefaultRouter()
 router.register(r'^api/rawdata', RawDataViewSet, base_name='RawData')
@@ -23,3 +24,6 @@ urlpatterns = [
 				  url(r'^validate_phone/$', views.validate_phone, name='validate_phone'),
                   path('works/<int:pk>/', views.EquipmentWorksDetailView.as_view(), name='works-detail'),
               ] + router.urls
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

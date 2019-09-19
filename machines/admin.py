@@ -37,6 +37,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class CodeAdmin(admin.ModelAdmin):
     list_display = ['user', 'code']
 
+
 # Register your models here.
 admin.site.register(Participant)
 admin.site.register(Reason)

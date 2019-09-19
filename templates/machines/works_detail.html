@@ -3,11 +3,21 @@
 {% load static %}
 {% load has_group %}
 
+{% block navbar %}
+        <li class="sidebar-brand">
+            <a href="/machines"><span class="glyphicon glyphicon-chevron-left"></span> Назад</a>
+        </li>
+{% endblock navbar %}
+
+
 {% block sidebar %}
     {% if user.is_superuser %}
         <li class="sidebar-brand">
             <a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Панель управления</a>
         </li>
+		<li class="sidebar-brand">
+            <a href="{% url "machine_image" %}"><span class="glyphicon glyphicon-picture"></span> Фото оборудования</a>
+        </li>		
     {% endif %}
     {% if request.user|has_group:'Руководитель производства' %}
         <li class="sidebar-brand">

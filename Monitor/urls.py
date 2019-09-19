@@ -24,8 +24,11 @@ from .view import main_index
 
 
 urlpatterns = [
-                  url(r'^$', main_index),
+    url(r'^$', main_index),
     url(r'^machines/', include('machines.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('django.contrib.auth.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
