@@ -9,7 +9,12 @@ from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from random import randint
 from machines.helpers import SendSMS
-
+import time
+import telebot
+import backends.telebotMenu as m
+from Monitor.settings import Token
+from Monitor.settings import users
+from telebot import types
 
 def main_index(request):
     return render(request, 'main_index.html')
@@ -183,3 +188,32 @@ def validate_phone(request):
         id_user_form = PhoneCodeForm(request.GET)
         return render(request, 'account/register_code_phone.html',
                       {'code_form': code_form, 'id_user_form': id_user_form})
+
+# telegram-бот
+def tbot(request):
+    bot = telebot.TeleBot(Token, threaded=False)
+
+    # main menu
+    @bot.message_handler(func=lambda message: message.from_user.username not in users)
+    def accessControl(message):
+        bot.send_message(message.chat.id, "Доступ запрещен")
+
+    @bot.message_handler(commands=['start'])
+    def start(message):
+        bot.send_message(message.chat.id, "Выберите пункт меню:", reply_markup=m.markup)
+
+    @bot.message_handler(content_types=['text'])
+    def mainMenu(message):
+        try:
+            bot.send_message(message.from_user.id, m.mainMenu[message.text](bot, message))
+        except KeyError:
+            pass
+
+    # исполнение бота
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=0)
+        except Exception as e:
+            # logger.error(e)  # или просто print(e) если у вас логгера нет,
+            # или import traceback; traceback.print_exc() для печати полной инфы
+            time.sleep(15)

@@ -17,7 +17,6 @@ from backends.exchange import ExchangeBackend
 import base64
 import requests
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #sys.path.append('Downloads/bootstrap-3.3.7-dist')
@@ -189,3 +188,9 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute='*'),
     },
 }
+
+# Telegram bot settings
+    # токен
+Token = '931618072:AAHV2Sh2oDztsj5iObD_f_Rt4vQvQ7qeHH8'
+    # кому разрешен доступ к боту
+users = ["techni85", "AlexeyUStepanov"]
