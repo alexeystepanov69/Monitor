@@ -187,10 +187,8 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'machines.tasks.update_intervals',
         'schedule': crontab(minute='*'),
     },
+    'telebot': {
+        'task': 'machines.tasks.tele_bot',
+        'schedule': crontab(minute='*'),
+    },
 }
-
-# Telegram bot settings
-    # токен
-Token = '931618072:AAHV2Sh2oDztsj5iObD_f_Rt4vQvQ7qeHH8'
-    # кому разрешен доступ к боту
-users = ["techni85", "AlexeyUStepanov"]

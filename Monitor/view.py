@@ -12,9 +12,6 @@ from machines.helpers import SendSMS
 import time
 import telebot
 import backends.telebotMenu as m
-from Monitor.settings import Token
-from Monitor.settings import users
-from telebot import types
 
 def main_index(request):
     return render(request, 'main_index.html')
@@ -190,7 +187,8 @@ def validate_phone(request):
                       {'code_form': code_form, 'id_user_form': id_user_form})
 
 # telegram-бот
-def tbot(request):
+"""
+def bot(request):
     bot = telebot.TeleBot(Token, threaded=False)
 
     # main menu
@@ -217,3 +215,4 @@ def tbot(request):
             # logger.error(e)  # или просто print(e) если у вас логгера нет,
             # или import traceback; traceback.print_exc() для печати полной инфы
             time.sleep(15)
+"""

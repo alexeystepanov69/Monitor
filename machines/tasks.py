@@ -11,7 +11,8 @@ from django.db.models import Avg
 from django.utils import timezone, dateparse
 from datetime import datetime, timedelta
 import pytz
-
+import telebot, time
+import backends.telebotMenu as m
 from django.contrib.auth.models import User
 import psycopg2 as ps
 from datetime import timedelta
@@ -368,3 +369,39 @@ def restore_ci():
                 ci.save()
         else:
             print('Interval {0}-{1} for equipment {2} not found!'.format(start, end, eq_id))
+
+@task()
+def tele_bot():
+    print("bot start")
+    # Telegram bot settings
+    # токен
+    Token = '931618072:AAHV2Sh2oDztsj5iObD_f_Rt4vQvQ7qeHH8'
+    # кому разрешен доступ к боту
+    users = ["techni85", "AlexeyUStepanov"]
+
+    bot = telebot.TeleBot(Token, threaded=False)
+
+    # main menu
+    @bot.message_handler(func=lambda message: message.from_user.username not in users)
+    def accessControl(message):
+        bot.send_message(message.chat.id, "Доступ запрещен")
+
+    @bot.message_handler(commands=['start'])
+    def start(message):
+        bot.send_message(message.chat.id, "Выберите пункт меню:", reply_markup=m.markup)
+
+    @bot.message_handler(content_types=['text'])
+    def mainMenu(message):
+        try:
+            bot.send_message(message.from_user.id, m.mainMenu[message.text](bot, message))
+        except KeyError:
+            pass
+
+    # исполнение бота
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=0)
+        except Exception as e:
+            # logger.error(e)  # или просто print(e) если у вас логгера нет,
+            # или import traceback; traceback.print_exc() для печати полной инфы
+            time.sleep(15)
