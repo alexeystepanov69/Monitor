@@ -375,7 +375,7 @@ def tele_bot():
     print("bot start")
     # Telegram bot settings
     # токен
-    Token = '931618072:AAHV2Sh2oDztsj5iObD_f_Rt4vQvQ7qeHH8'
+    Token = ''
     # кому разрешен доступ к боту
     users = ["techni85", "AlexeyUStepanov"]
 
