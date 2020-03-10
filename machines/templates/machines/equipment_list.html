@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+{% load admin_urls %}
+{% load static %}
+{% load has_group %}
+
+{% block sidebar %}
+    {% if user.is_superuser %}
+        <li class="sidebar-brand">
+            <a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Панель управления</a>
+        </li>
+    {% endif %}
+	{% if request.user|has_group:'Руководитель производства' %}
+        <li class="sidebar-brand">
+            <a href="http://192.168.3.14"><span class="glyphicon glyphicon-user"></span>  Личный кабинет</a>
+        </li>
+    {% endif %}
+{% endblock sidebar %}
+
+{% block content %}
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+    <script type="text/javascript" src="{% static 'js/equipment_list.js' %}"></script>
+    <div class="page-header">
+        <h3>Мониторинг оборудования</h3>
+    </div>
+    <form class="form-inline text-left" method="get">
+        <div class="form-group mb-2 text-left" style="padding-bottom: 30px">
+            {{ filter.form | bootstrap_inline }}
+            <button class="btn btn-primary" type="submit">Применить</button>
+        </div>
+    </form>
+    <table class="table text-left" width="100%">
+        <thead style="color:#003063; background: #E0E0E0; text-align: center">
+        <tr>
+            <th>Цех</th>
+            <th colspan="2"><div style="text-align: center">Оборудование</div></th>
+{#			<th>Фото оборудования</th>#}
+            <th style="width: 50%">Данные мониторинга</th>
+            <th style="text-align: center">Состояние</th>
+        </tr>
+        </thead>
+        {% for equip in filter.qs %}
+            <tr>
+                <td style="padding-top: 20px">{{ equip.workshop }}</td>
+                <td style="padding-top: 20px"><b>{{ equip.model }} ({{ equip.code }})</b></td>
+                <td>
+                    {% if equip.image %}
+                        <img src="{{ equip.image.url }}" height="75px">
+                    {% else %}
+                        <img src="{% static 'img/equipment.jpg'%}" width="100px">
+                    {% endif %}
+                </td>
+                <td>
+                    <div id="graph-{{ equip.id }}" style="width: 100%; height: 100px;">
+                    </div>
+                </td>
+                <td style="text-align: center">
+                    <a href="{{ appname }}works/{{ equip.id }}/">
+                        <h4><span class="glyphicon glyphicon-new-window"> </span></h4>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <script type="text/javascript">
+        graphicsData={{ graph_data|safe }}
+    </script>
+{% endblock content %}

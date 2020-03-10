@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load googlecharts %}
+{% load static %}
+{% load has_group %}
+
+{% block navbar %}
+        <li class="sidebar-brand">
+            <a href="/machines"><span class="glyphicon glyphicon-chevron-left"></span> Назад</a>
+        </li>
+{% endblock navbar %}
+
+{% block sidebar %}
+    {% if user.is_superuser %}
+        <li class="sidebar-brand">
+            <a href="/admin/"><span class="glyphicon glyphicon-cog"></span> Панель управления</a>
+        </li>
+    {% endif %}
+	{% if request.user|has_group:'Руководитель производства' %}
+        <li class="sidebar-brand">
+            <a href="http://192.168.3.14"><span class="glyphicon glyphicon-user"></span>  Личный кабинет</a>
+        </li>
+    {% endif %}
+{% endblock sidebar %}
+
+{% block content %}
+    {% if user_can_update %}
+        <form action="." method="post">
+    {% else %}
+        <form action="" method="get">
+    {% endif %}
+{% csrf_token %}
+<div class="hidden">{{ form.model }}</div>
+    <div class="page-header text-left">
+        <h4>
+            <table width="100%">
+                <tr>
+                    <th>{{ object }}</th>
+                    <th>
+                        <!--input type="date" id="mycalendar" name="date" style="alignment: center"-->
+                        {{ form.date }}
+                    </th>
+                    <th>
+                        <a href="{% url 'classifiedinterval-list' %}">Все простои</a>
+                    </th>
+                    <th class="text-right">
+                        <input type="submit" class="btn btn-primary text-right" id="btn_save_and_go"
+                                {% if user_can_update %}
+                               value="Сохранить"
+                                {% else %}
+                               value="Перейти"
+                                {% endif %}>
+                    </th>
+                </tr>
+            </table>
+        </h4>
+    </div>
+
+
+    <div id="my-graph" style="text-align: center; margin-top: 30px"></div>
+
+    {% googlecharts %}
+        {% data rawdata "track" %}
+            {% col "string" "time" %}"{{ val }}"{% endcol %}
+            {% col "number" "value" %}{{ val }}{% endcol %}
+        {% enddata %}
+
+        {% options "myoptions" %}
+            kind: "LineChart",
+            options: {
+            backgroundColor: "#f9f9f9",
+            colors: ["#FF0000", "#00FF00", "#0000FF"],
+            title: "График",
+            chartArea: {left: 40, top: 20, width: '90%', height: '100%'},
+            width: '100%',
+            height: '20%'
+            }
+        {% endoptions %}
+        {% graph "my-graph" "track" "myoptions" %}
+    {% endgooglecharts %}
+
+<div class="table-responsive">
+    <table class="table">
+        {{ intervals.management_form }}
+        <tr>
+            <th>Начало</th>
+            <th>Длительность</th>
+            <th>Классификация</th>
+            <th>Укажите причину</th>
+            {% for interval in intervals.forms %}
+                <tr class="formset_row">
+                    <td>
+                        {% for hidden in interval.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                        {{ interval.instance.start|date:"d.m.y H:i" }}
+                    </td>
+                    <td>{{ interval.instance.length_fmt }}</td>
+                    <td>
+                        {% if interval.instance.automated_classification.is_working %}
+                            <span class="glyphicon glyphicon-ok-sign text-success"> Работа</span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-remove-sign text-danger"> Простой</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user_can_update %}
+                            {{ interval.user_classification }}
+                        {% else %}
+                            {% if not interval.instance.automated_classification.is_working and interval.instance.user_classification %}
+                                {{ interval.instance.user_classification }}
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+</form>
+<script type="text/javascript" src="{% static 'js/work_detail.js' %}"></script>
+{% endblock content %}
