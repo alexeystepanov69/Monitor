@@ -14,7 +14,7 @@ django-bootstrap3==12.0.3
 django-filter==2.2.0
 django-google-charts==0.1.1
 django-qsstats-magic==1.1.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 dnspython==1.16.0
 exchangelib==3.1.1
 idna==2.8
